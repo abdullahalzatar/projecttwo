@@ -4,7 +4,7 @@ const AppError = require("./middleware/AppError");
 const { INVALID_SUBSCRIPTION } = require("./middleware/errorCodes");
 const errorHandler = require("./middleware/app.js");
 const { tryCatch } = require("./middleware/tryCatch");
-const database = require("./database");
+const database = require("./server");
 const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();

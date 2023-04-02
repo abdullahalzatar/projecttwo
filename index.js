@@ -1,7 +1,7 @@
 const express = require("express");
 const errorHandler = require("./middleware/app.js");
 const logger = require("./middleware/logger");
-const database = require("./database");
+const server = require("./server");
 const router = require("./router");
 
 const app = express();
