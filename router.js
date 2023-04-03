@@ -12,6 +12,7 @@ const { createTokens, validateToken } = require("./middleware/JWT");
 const bcrypt = require("bcrypt");
 const Goal = require('./config/goalModel')
 const asyncHandler = require('express-async-handler')
+const log = require("./index");
 
 
 const prisma = new PrismaClient();
@@ -21,28 +22,8 @@ let router = express.Router();
 /* ------------------------------- */
 router
   .route("/logs")
-  .post(
-    tryCatch(async (req, res ,next) => {
-      if (!req.body.text) {
-        res.status(400)
-        throw new Error('Please add a text field')
-      }
-    
-      const goal = await Goal.create({
-        text: req.body.text,
-      })
-    
-      res.status(200).json(goal)
-
-    }))
     .get(tryCatch(async (req, res ,next) => {
-      let {page , size}=req.query;
-      if(!page){
-        page = 1;
-      }
-      if(!size){
-        size = 10;
-      }
+      let {page =1 , size = 10}=req.query;
 
       const limit = parseInt(size);
       const skip = (page - 1)*size;
@@ -55,26 +36,6 @@ router
 
 
 /* ------------------------------- */
-router
-  .route("/logs")
-  .post(
-    tryCatch(async (req, res ,next) => {
-      let {page , size}=req.query;
-      if(!page){
-        page = 1;
-      }
-      if(!size){
-        size = 10;
-      }
-
-      const limit = parseInt(size);
-      const skip = (page - 1)*size;
-
-      const users =await books.find().limit(limit).skip(skip);
-
-      res.send({page , size , data: users})
-
-    }))
 
 router
   .route("/register")
@@ -132,6 +93,7 @@ router
   .get(validateToken,
     tryCatch(async (req, res) => {
       const newbooks = await prisma.books.findMany()
+      console.log(log)
       res.status(200).send(newbooks)
     })
   )
@@ -147,7 +109,6 @@ router
       const newbooks = await prisma.books.create({
       data :{ name : req.body.name }
     });
-
     res.status(200).send(newbooks);
     })
   );
@@ -182,7 +143,6 @@ router
           name : req.body.name
         }
       })
-    
       res.status(200).send(`User UPDATE with ID: ${id}`);
     })
   )
@@ -197,7 +157,7 @@ router
           id : id
         },
       })
-       
+
       res.status(200).send(newbooks)
         })
   );

@@ -1,3 +1,11 @@
+const Goal = require('../config/goalModel')
+
+const test = async(log)=>{
+  const goal = await Goal.create({
+    text: log,
+  })
+}
+
 const logger = (req, res, next) => {
     const current_datetime = new Date();
     const formatted_date =
@@ -16,6 +24,7 @@ const logger = (req, res, next) => {
       const ipAddress = req.socket.remoteAddress;
       const log = `[${formatted_date}] ${method}:${url} ${status} ${ipAddress}`;
     console.log(log);
+    test(log);
     next();
   };
 
