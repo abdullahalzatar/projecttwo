@@ -10,7 +10,7 @@ const app = express();
 app.use(cookieParser());
 connectDB();
 
-const port = process.env.port || 3000;
+const port = process.env.port || 5432;
 
 app.use(express.json());
 app.use(logger);
